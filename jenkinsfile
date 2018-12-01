@@ -1,0 +1,52 @@
+
+pipeline {
+  agent any
+  parameters {
+  string(name: 'PERSON', description: 'Who should I say hello to?')
+  choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
+  }
+  tools { 
+        maven 'Maven'
+        jdk 'JAVA_HOME'
+  }
+  environment {
+        MYJOB = 'DevOps'
+        BUILD = 'PIPELINE'
+    }
+  stages {
+    stage('Clone repository') {
+	environment {
+        MYJOB = 'DevOps1'
+        BUILD = 'PIPELINE1'
+    }
+      steps {
+        checkout scm
+        sh 'echo $MYJOB'
+        sh 'echo $PERSON'
+      }
+    }
+    stage("Parllel Testing") {
+        parallel {
+                stage('Build') {
+                        steps {
+                             sh 'mvn clean package'
+                             sh 'echo $USER'
+                             sh 'echo whoami'
+                             sh 'echo $MYJOB'
+                        } 
+                        post {
+                                always {
+                                        junit "**/target/surefire-reports/*.xml"
+                                }
+                        }
+                }
+                stage('forDemo') {
+                      steps {
+                        sh 'echo This is master'
+                        sh 'sleep 100'
+                      }
+                }
+        }
+     }
+   }
+}

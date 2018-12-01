@@ -1,0 +1,7 @@
+{
+  "Resources": {
+    "MyRepository": {
+      "Type": "AWS::ECR::Repository",
+        "RepositoryName": "mytestecr"
+  }
+}
