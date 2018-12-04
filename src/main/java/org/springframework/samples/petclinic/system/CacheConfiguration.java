@@ -21,12 +21,7 @@ class CacheConfiguration {
             cm.createCache("vets", cacheConfiguration());
         };
     }
-  @Bean
-    public JCacheManagerCustomizer petclinicCacheConfigurationCustomizer1() {
-        return cm -> {
-            cm.createCache("vets", cacheConfiguration());
-        };
-    }
+ 
     /**
      * Create a simple configuration that enable statistics via the JCache programmatic configuration API.
      * <p>
